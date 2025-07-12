@@ -5,7 +5,7 @@ export const DELETE = async (request: NextRequest) => {
   try {
     const params = await request.json();
     const { categoryId } = params;
-    const deleteCategory = await prisma.postCategory.findFirst({
+    const deleteCategory = await prisma.postCategory.delete({
       where: {
         categoryId: categoryId,
       },

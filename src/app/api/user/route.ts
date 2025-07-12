@@ -5,7 +5,38 @@ import bcrypt from "bcrypt";
 const hashPassword = (plainPassword: string) => {
   return bcrypt.hash(plainPassword, 10);
 };
-//Create Account
+export const DELETE = async (request: NextRequest) => {
+  try {
+    const body = await request.json();
+    const { id } = body;
+    const deleteUser = await prisma.user.delete({
+      where: {
+        id: id,
+      },
+    });
+    return NextResponse.json({
+      message: "Delete user succesfully!",
+      status: 201,
+      data: deleteUser,
+    });
+  } catch (error) {
+    console.error("Something was error", error);
+    return NextResponse.json({ message: "Something was error", status: 500 });
+  }
+};
+export const GET = async () => {
+  try {
+    const userData = await prisma.user.findMany();
+    return NextResponse.json({
+      message: "Data founded!",
+      data: userData,
+    });
+  } catch (error) {
+    console.error("Something was error", error);
+    return NextResponse.json({ message: "Something was error", status: 500 });
+  }
+};
+
 export const POST = async (request: NextRequest) => {
   try {
     const body = await request.json();
